@@ -1,9 +1,7 @@
 const startButton = document.getElementById("start-button");
-startButton.addEventListener("click", startGame)
+startButton.addEventListener("click", startGame);
 
-//配列のindexとオブジェとのidが乖離しているのは扱いにくいから辞書に変えたい
-
-const Questions = []
+const Questions = [];
 
 class Question {
   constructor( dictionary, id ) {
@@ -24,7 +22,6 @@ class Question {
     this._userAnswer = value;
   };
   isCorrectAnswer(){
-    console.log(this.correct_answer)
     return this.correct_answer == this.userAnswer;
   };
 };
@@ -36,7 +33,7 @@ function getQuiz () {
       return response.json();
     } else {
       throw new Error();
-    }
+    };
   })
   .then(function(jsonData){
     createQuiz( jsonData["results"] );
@@ -46,14 +43,14 @@ function getQuiz () {
 
 function createQuiz (json) {
   json.forEach(function(element, index){
-  Questions.push(new Question(element, index))
+  Questions.push(new Question(element, index));
   });
 };
 
 function startGame () {
   document.getElementById("start-button").classList.add("hide");
   document.getElementById("btn-ol").classList.remove("hide");
-  const titleTarget = document.getElementById("title")
+  const titleTarget = document.getElementById("title");
   titleTarget.innerHTML = "取得中";
   const textTarget = document.getElementById("text")
   textTarget.innerHTML = "少々お待ちください";
@@ -68,21 +65,20 @@ function createChoiseButton ( text ) {
   button.addEventListener('click', setUserAnswer, true);
   button.addEventListener('click', nextQuiz);
   li.appendChild(button);
-  document.getElementById("btn-ol").appendChild(li)
+  document.getElementById("btn-ol").appendChild(li);
 };
 
 function displayQuestion ( question ) {
-  const titleTarget = document.getElementById("title")
-  
+  const titleTarget = document.getElementById("title");
   titleTarget.innerHTML = ("問題" + (Number(question.id) + 1));
-  titleTarget.dataset.questionId = question.id
-  const categoryTarget = document.getElementById("category")
+  titleTarget.dataset.questionId = question.id;
+  const categoryTarget = document.getElementById("category");
   categoryTarget.innerHTML = ("[ジャンル]" + question.category);
-  const difficultyTarget = document.getElementById("difficulty")
+  const difficultyTarget = document.getElementById("difficulty");
   difficultyTarget.innerHTML = ("[難易度]" + question.difficulty);
-  const textTarget = document.getElementById("text")
+  const textTarget = document.getElementById("text");
   textTarget.innerHTML = ( question.text );
-  document.getElementById("btn-ol").innerHTML = ""
+  document.getElementById("btn-ol").innerHTML = "";
   question.choice.forEach(function(text){
     createChoiseButton(text);
   });
@@ -91,7 +87,7 @@ function displayQuestion ( question ) {
 function setUserAnswer () {
   const questionId = document.getElementById("title").dataset.questionId;
   const question = Questions[questionId];
-  this.value = question.userAnswer
+  this.value = question.userAnswer;
 };
 
 function nextQuiz() {
@@ -101,14 +97,14 @@ function nextQuiz() {
   }else if(Number(questionId) === 9){
     return displayResult();
   };
-  const nextId = Number(questionId) + 1
+  const nextId = Number(questionId) + 1;
   const nextQuiz = Questions[nextId];
   displayQuestion( nextQuiz );
 };
 
 function displayResult() {
   const collecNumber = calculateQuestions();
-  const titleTarget = document.getElementById("title")
+  const titleTarget = document.getElementById("title");
   titleTarget.innerHTML = ("あなたの正解数は" + collecNumber + "回です");
   document.getElementById("category").innerHTML = "";
   document.getElementById("difficulty").innerHTML = "";
@@ -116,7 +112,7 @@ function displayResult() {
   document.getElementById("text").innerHTML = "再度チャレンジしたい場合は以下をクリック！";
   document.getElementById("start-button").classList.remove("hide");
   document.getElementById("title").dataset.questionId = 0;
-  Questions.length = 0
+  Questions.length = 0;
 };
 
 function calculateQuestions(){  
