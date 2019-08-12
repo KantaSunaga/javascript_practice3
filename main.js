@@ -73,7 +73,8 @@ function createChoiseButton ( text ) {
 
 function displayQuestion ( question ) {
   const titleTarget = document.getElementById("title")
-  titleTarget.innerHTML = ("問題" + question.id);
+  
+  titleTarget.innerHTML = ("問題" + (Number(question.id) + 1));
   titleTarget.dataset.questionId = question.id
   const categoryTarget = document.getElementById("category")
   categoryTarget.innerHTML = ("[ジャンル]" + question.category);
@@ -90,16 +91,13 @@ function displayQuestion ( question ) {
 function setUserAnswer () {
   const questionId = document.getElementById("title").dataset.questionId;
   const question = Questions[questionId];
-  console.log(question)
-  console.log(questionId)
-
   this.value = question.userAnswer
 };
 
 function nextQuiz() {
   let questionId = document.getElementById("title").dataset.questionId;
   if ( !questionId ) {
-    displayQuestion( Questions[0] );
+    return displayQuestion( Questions[0] );
   }else if(Number(questionId) === 9){
     return displayResult();
   };
