@@ -43,7 +43,7 @@ function getQuiz () {
 
 function createQuiz (json) {
   json.forEach(function(element, index){
-  QUESTIONS.push(new Question(element, index));
+    QUESTIONS.push(new Question(element, index));
   });
 };
 
