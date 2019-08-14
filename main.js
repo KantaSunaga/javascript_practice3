@@ -23,7 +23,7 @@ class Question {
     this._userAnswer = value;
   };
   isCorrectAnswer(){
-    return this.correctAnswer == this.userAnswer;
+    return this.correctAnswer === this.userAnswer;
   };
 };
 
