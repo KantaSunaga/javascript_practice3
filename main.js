@@ -30,7 +30,7 @@ class Question {
 
 function getQuiz () {
   fetch('https://opentdb.com/api.php?amount=10')
-  .then((response) => {
+  .then(function(response){
     if(response.ok) { 
       return response.json();
     } else {
