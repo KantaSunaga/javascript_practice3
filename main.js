@@ -3,6 +3,7 @@ startButton.addEventListener("click", startGame);
 
 const QUESTIONS = [];
 var nextQuestionId = 0;
+var collectCount = 0;
 
 class Question {
   constructor( dictionary, id ) {
@@ -114,12 +115,11 @@ function displayResult() {
 };
 
 function calculateQuestions(){  
-  const collecNumber = [];
   QUESTIONS.forEach(function(question){
     if (question.isCorrectAnswer()){
-      collecNumber.push(question);
+      collectCount = collectCount + 1;
     };
   });
-  return collecNumber.length;
+  return collectCount
 };
 
