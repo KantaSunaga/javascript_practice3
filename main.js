@@ -92,9 +92,10 @@ function setUserAnswer () {
 
 function nextQuiz() {
   let questionId = document.getElementById("title").dataset.questionId;
+  const quetionsMaxCount = QUESTIONS.length - 1;
   if ( !questionId ) {
     return displayQuestion( QUESTIONS[0] );
-  }else if(Number(questionId) === 9){
+  }else if(Number(questionId) === quetionsMaxCount ){
     return displayResult();
   };
   const nextId = Number(questionId) + 1;
