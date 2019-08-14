@@ -2,6 +2,7 @@ const startButton = document.getElementById("start-button");
 startButton.addEventListener("click", startGame);
 
 const QUESTIONS = [];
+var nextQuestionId = 0;
 
 class Question {
   constructor( dictionary, id ) {
@@ -91,16 +92,11 @@ function setUserAnswer () {
 };
 
 function nextQuiz() {
-  let questionId = document.getElementById("title").dataset.questionId;
-  const quetionsMaxCount = QUESTIONS.length - 1;
-  if ( !questionId ) {
-    return displayQuestion( QUESTIONS[0] );
-  }else if(Number(questionId) === quetionsMaxCount ){
+  if ( nextQuestionId === QUESTIONS.length  ) {
     return displayResult();
   };
-  const nextId = Number(questionId) + 1;
-  const nextQuiz = QUESTIONS[nextId];
-  displayQuestion( nextQuiz );
+  displayQuestion( QUESTIONS[nextQuestionId] );
+  nextQuestionId = nextQuestionId + 1;
 };
 
 function displayResult() {
@@ -114,6 +110,7 @@ function displayResult() {
   document.getElementById("start-button").classList.remove("hide");
   document.getElementById("title").dataset.questionId = 0;
   QUESTIONS.length = 0;
+  nextQuestionId = 0
 };
 
 function calculateQuestions(){  
