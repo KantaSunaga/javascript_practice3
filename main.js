@@ -1,7 +1,7 @@
 const startButton = document.getElementById("start-button");
 startButton.addEventListener("click", startGame);
 
-const Questions = [];
+const QUESTIONS = [];
 
 class Question {
   constructor( dictionary, id ) {
@@ -9,7 +9,7 @@ class Question {
     this.category = dictionary["category"];
     this.difficulty = dictionary["difficulty"];
     this.text = dictionary["question"];
-    this.correct_answer = dictionary["correct_answer"];
+    this.correctAnswer = dictionary["correct_answer"];
     this.choice = dictionary["incorrect_answers"].concat( [ dictionary["correct_answer"] ]);
     this._userAnswer = "noneAnswer";
   };
@@ -22,7 +22,7 @@ class Question {
     this._userAnswer = value;
   };
   isCorrectAnswer(){
-    return this.correct_answer == this.userAnswer;
+    return this.correctAnswer == this.userAnswer;
   };
 };
 
@@ -43,7 +43,7 @@ function getQuiz () {
 
 function createQuiz (json) {
   json.forEach(function(element, index){
-  Questions.push(new Question(element, index));
+  QUESTIONS.push(new Question(element, index));
   });
 };
 
@@ -86,19 +86,19 @@ function displayQuestion ( question ) {
 
 function setUserAnswer () {
   const questionId = document.getElementById("title").dataset.questionId;
-  const question = Questions[questionId];
-  this.value = question.userAnswer;
+  const question = QUESTIONS[questionId];
+  question.userAnswer = this.value ;
 };
 
 function nextQuiz() {
   let questionId = document.getElementById("title").dataset.questionId;
   if ( !questionId ) {
-    return displayQuestion( Questions[0] );
+    return displayQuestion( QUESTIONS[0] );
   }else if(Number(questionId) === 9){
     return displayResult();
   };
   const nextId = Number(questionId) + 1;
-  const nextQuiz = Questions[nextId];
+  const nextQuiz = QUESTIONS[nextId];
   displayQuestion( nextQuiz );
 };
 
@@ -112,13 +112,12 @@ function displayResult() {
   document.getElementById("text").innerHTML = "再度チャレンジしたい場合は以下をクリック！";
   document.getElementById("start-button").classList.remove("hide");
   document.getElementById("title").dataset.questionId = 0;
-  Questions.length = 0;
+  QUESTIONS.length = 0;
 };
 
 function calculateQuestions(){  
   const collecNumber = [];
-  // collecNumberに０を代入して結果に1足していったけど0のままだった
-  Questions.forEach(function(question){
+  QUESTIONS.forEach(function(question){
     if (question.isCorrectAnswer()){
       collecNumber.push(question);
     };
