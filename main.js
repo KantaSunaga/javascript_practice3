@@ -1,19 +1,43 @@
 const startButton = document.getElementById("start-button");
 startButton.addEventListener("click", startGame);
 
-const QUESTIONS = [];
-var nextQuestionId = 0;
-var collectCount = 0;
+const questions = [];
+let nextQuestionId = 0;
+let collectCount = 0;
 
 class Question {
   constructor( dictionary, id ) {
-    this.id = id;
-    this.category = dictionary["category"];
-    this.difficulty = dictionary["difficulty"];
-    this.text = dictionary["question"];
-    this.correctAnswer = dictionary["correct_answer"];
-    this.choice = dictionary["incorrect_answers"].concat( [ dictionary["correct_answer"] ]);
+    this._id = id;
+    this._category = dictionary["category"];
+    this._difficulty = dictionary["difficulty"];
+    this._text = dictionary["question"];
+    this._correctAnswer = dictionary["correct_answer"];
+    this._choice = dictionary["incorrect_answers"].concat( [ dictionary["correct_answer"] ]);
     this._userAnswer = "noneAnswer";
+  };
+
+  get id(){
+    return this._id;
+  };
+
+  get category(){
+    return this._category;
+  };
+
+  get difficulty(){
+    return this._difficulty;
+  };
+
+  get text(){
+    return this._text;
+  };
+
+  get correctAnswer(){
+    return this._correctAnswer;
+  };
+
+  get choice(){
+    return this._choice;
   };
 
   get userAnswer() {
@@ -45,7 +69,7 @@ function getQuiz () {
 
 function createQuiz (json) {
   json.forEach(function(element, index){
-    QUESTIONS.push(new Question(element, index));
+    questions.push(new Question(element, index));
   });
 };
 
@@ -88,15 +112,15 @@ function displayQuestion ( question ) {
 
 function setUserAnswer () {
   const questionId = document.getElementById("title").dataset.questionId;
-  const question = QUESTIONS[questionId];
+  const question = questions[questionId];
   question.userAnswer = this.value ;
 };
 
 function nextQuiz() {
-  if ( nextQuestionId === QUESTIONS.length  ) {
+  if ( nextQuestionId === questions.length  ) {
     return displayResult();
   };
-  displayQuestion( QUESTIONS[nextQuestionId] );
+  displayQuestion( questions[nextQuestionId] );
   nextQuestionId = nextQuestionId + 1;
 };
 
@@ -110,14 +134,14 @@ function displayResult() {
   document.getElementById("text").innerHTML = "再度チャレンジしたい場合は以下をクリック！";
   document.getElementById("start-button").classList.remove("hide");
   document.getElementById("title").dataset.questionId = 0;
-  QUESTIONS.length = 0;
+  questions.length = 0;
   nextQuestionId = 0
 };
 
 function calculateQuestions(){  
-  QUESTIONS.forEach(function(question){
+  questions.forEach(function(question){
     if (question.isCorrectAnswer()){
-      collectCount = collectCount + 1;
+      collectCount += 1;
     };
   });
   return collectCount
